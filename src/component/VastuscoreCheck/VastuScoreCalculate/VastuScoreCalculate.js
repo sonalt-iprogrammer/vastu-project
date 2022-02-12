@@ -4,12 +4,7 @@ import { Card, Row, Table, Col, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import './VastuScoreCalculate.css'
 
-const chunk = (Listarr1, chunkSize = 1, cache = []) => {
-  const tmp = [...Listarr1]
-  if (chunkSize <= 0) return cache
-  while (tmp.length) cache.push(tmp.splice(0, chunkSize))
-  return cache
-}
+
 
 const VastuScoreCalculate = (props) => {
   const [roomModalData, setRoomModalData] = useState({
@@ -22,7 +17,7 @@ const VastuScoreCalculate = (props) => {
   const navigate = useNavigate()
   const roomWiseVastuScore = props.ScoreData.roomWiseVastuScore
   //let Res = data.listData
-  let List = chunk([...roomWiseVastuScore], 2)
+  
   // console.log(roomWiseVastuScore)
   const favourableDirections = []
   const nuetralDirections = []
@@ -34,6 +29,7 @@ const VastuScoreCalculate = (props) => {
       "value":false
     });
   }
+  
 
   const onLegendClick = (room) => {
     setModalShow(true)
@@ -144,7 +140,7 @@ const VastuScoreCalculate = (props) => {
           })}
         </Row>
       </Card>
-      <button
+      <button onClick={props.resetValue}
         style={{
           width: '380px',
           height: '50px',

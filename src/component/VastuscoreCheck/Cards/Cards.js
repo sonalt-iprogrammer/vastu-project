@@ -14,6 +14,7 @@ const Cards = (props) => {
     }
 
   })
+  console.log(arr)
   
 
 

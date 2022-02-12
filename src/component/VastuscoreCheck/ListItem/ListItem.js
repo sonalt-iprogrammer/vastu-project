@@ -15,12 +15,12 @@ const Listitems = (props) => {
  
 
   const itemSelectHandler = (direction,event) => {
-    console.log(direction.pageReload)
+//console.log(direction.pageReload)
     props.selectedItem({
       value: event.target.value,
       direction: direction.Direction,
       checked: event.target.checked,
-      reload:direction.pageReload,
+      // reload:direction.pageReload,
     })
   }
   const isClickedModal=()=>{
@@ -63,7 +63,7 @@ const Listitems = (props) => {
                   type="checkbox"
                   value={item}
                   onChange={(e) =>
-                    itemSelectHandler({" Direction": data.Direction,"pageReload":false }, e)
+                    itemSelectHandler({ Direction: data.Direction}, e)
                   }
                 />
                 {item}

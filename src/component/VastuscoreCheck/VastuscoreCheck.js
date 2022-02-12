@@ -36,7 +36,7 @@ let SelectedListValues = [
     RoomList: [],
   },
   {
-    Direction: 'Center',
+    Direction: 'Centre',
     RoomList: [],
   },
   {
@@ -67,14 +67,14 @@ const VastuscoreCheck = (props) => {
     roomWiseVastuScore: [{}],
     vastuScoreStatus: '',
   })
-  const reload=[];
+ 
 
   const DirectionArray = [
     'North West',
     'North',
     'North East',
     'West',
-    'Center',
+    'Centre',
     'East',
     'South West',
     'South',
@@ -120,8 +120,8 @@ const VastuscoreCheck = (props) => {
   }
 
   const showSelectedItem = (item) => {
-    console.log(item.reload);
-    reload.push(item.reload);
+   // console.log(item.reload);
+  //  reload.push(item.reload);
     
     for (let key in SelectedListValues) {
       if (SelectedListValues[key].Direction == item.direction) {
@@ -151,7 +151,7 @@ const VastuscoreCheck = (props) => {
     setVastuScoreChecked(value.value)
 
   }
-  console.log(reload)
+//  console.log(reload)
 
   const CalculateVastuScore = (DataToalculate) => {
     let obj = {}
@@ -179,6 +179,11 @@ const VastuscoreCheck = (props) => {
         setScoreData(Response.data.payload.data)
         setVastuScoreChecked(true)
       })
+  }
+
+  const resetValue=()=>{
+    setSelectedData([{}])
+
   }
 
   return (
@@ -212,7 +217,7 @@ const VastuscoreCheck = (props) => {
                 return (
                   <Col sm={4} md={4} lg={4} key={Math.random()}>
                     <Cards
-                    reload ={reload}
+                    // reload ={reload}
                       selectedData={selectedData}
                       item={item}
                       onCardClickHandler={onCardClickHandler}
@@ -235,7 +240,7 @@ const VastuscoreCheck = (props) => {
         </MainContent>
       )}{' '}
       {VastuScoreChecked && (
-        <VastuScoreCalculate ScoreData={ScoreData} goBack={goBack}>
+        <VastuScoreCalculate ScoreData={ScoreData} goBack={goBack} resetValue={resetValue}>
           {props.children}
         </VastuScoreCalculate>
       )}
