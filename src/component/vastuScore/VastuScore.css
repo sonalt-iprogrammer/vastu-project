@@ -1,0 +1,14 @@
+.vastuSidebar{
+    padding: 2px;
+    
+    
+
+}
+p{
+    margin: 20px !important;
+    
+}
+.isLoading{
+    color: rgb(148, 62, 170);
+    font-weight: 1000;
+}

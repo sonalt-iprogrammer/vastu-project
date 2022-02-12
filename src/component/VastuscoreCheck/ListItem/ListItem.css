@@ -1,0 +1,14 @@
+.listCard{
+    padding: 1rem;
+}
+input.checkbox{
+   
+    margin: 0.5rem !important;
+}
+.linkClass {
+   display: flex;
+   justify-content: space-between;
+}
+.linkClass a{
+    padding: 12px;
+}
