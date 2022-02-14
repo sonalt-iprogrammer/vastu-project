@@ -101,6 +101,9 @@ const VastuscoreCheck = (props) => {
   // }
 
   const onCardClickHandler = (item) => {
+    if(item==''){
+      return
+    }else{
     //  fetchListData(item)
 
     axios
@@ -117,9 +120,10 @@ const VastuscoreCheck = (props) => {
       })
 
     console.log(selectedData)
-  }
+   } }
 
   const showSelectedItem = (item) => {
+    
    // console.log(item.reload);
   //  reload.push(item.reload);
     
@@ -127,8 +131,8 @@ const VastuscoreCheck = (props) => {
       if (SelectedListValues[key].Direction == item.direction) {
         if (item.checked) {
           SelectedListValues[key].RoomList.push(item.value)
-          setSelectedData((prevSate) => {
-            return [...prevSate], SelectedListValues
+          setSelectedData((prevState) => {
+            return [...prevState], SelectedListValues
           })
           console.log(SelectedListValues)
         } else {
@@ -136,8 +140,8 @@ const VastuscoreCheck = (props) => {
             if (SelectedListValues[key].RoomList[i] === item.value) {
               console.log(item.value)
               SelectedListValues[key].RoomList.splice(i, 1)
-              setSelectedData((prevSate) => {
-                return [...prevSate], SelectedListValues
+              setSelectedData((prevState) => {
+                return [...prevState], SelectedListValues
               })
               console.log(SelectedListValues)
             }
@@ -154,7 +158,11 @@ const VastuscoreCheck = (props) => {
 //  console.log(reload)
 
   const CalculateVastuScore = (DataToalculate) => {
-    let obj = {}
+    console.log(DataToalculate[0])
+    if(Object.keys(DataToalculate[0]).length === 0){
+      console.log("please fill somthing");
+    }else{
+      let obj = {}
 
     console.log(DataToalculate)
     for (let i in DataToalculate) {
@@ -179,10 +187,12 @@ const VastuscoreCheck = (props) => {
         setScoreData(Response.data.payload.data)
         setVastuScoreChecked(true)
       })
+    }
+    
   }
 
   const resetValue=()=>{
-    setSelectedData([{}])
+    setSelectedData([{...SelectedListValues}])
 
   }
 
@@ -228,14 +238,45 @@ const VastuscoreCheck = (props) => {
                 )
               })}
             </Row>
-
+<div style={{display:"flex", }}>
+<Button
+            style={{
+              // width: '200px',
+              // height: '40px',
+              display:"inline-block",
+              marginRight:"150px",
+              
+              flex:"1",
+              
+              background: '#FF7021',
+              borderRadius: '4px',
+              color: 'white',
+            }}
+              onClick={() => {
+                resetValue()
+              }}
+            >
+              RESET
+            </Button>
             <Button
+            style={{
+              // width: '200px',
+              // height: '40px',
+              flex:"1",
+              display:"inline-block",
+              marginRight:"150px",
+              background: '#FF7021',
+              borderRadius: '4px',
+              color: 'white',
+            }}
               onClick={() => {
                 CalculateVastuScore(selectedData)
               }}
             >
-              Calculate
+              CALCULATE
             </Button>
+</div>
+           
           </Container>
         </MainContent>
       )}{' '}

@@ -29,6 +29,17 @@ const VastuScoreCalculate = (props) => {
       "value":false
     });
   }
+  const resetting=()=>{
+    setRoomModalData({
+      room: '',
+      favourableDirections: [],
+      nuetralDirections: [],
+      unfavourableDirections: [],
+    });
+    props.resetValue();
+
+
+  }
   
 
   const onLegendClick = (room) => {
@@ -140,7 +151,7 @@ const VastuScoreCalculate = (props) => {
           })}
         </Row>
       </Card>
-      <button onClick={props.resetValue}
+      <button onClick={()=>resetting()}
         style={{
           width: '380px',
           height: '50px',
