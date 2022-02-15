@@ -1,22 +1,16 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Button, Card, Col, Container, Row } from 'react-bootstrap'
+import MyModal from '../UI/Modal/Modal'
+
+
+
 import BreadCrumb from '../UI/BreadCrumb/BreadCrumb'
 import MainContent from '../UI/MainContent/MainContent'
 import Sidebar from '../UI/SideBar/Sidebar'
-import Listitems from './ListItem/ListItem'
 import './VastuscoreCheck.css'
 import axios from 'axios'
-import Cards from './Cards/Cards'
 import VastuScoreCalculate from './VastuScoreCalculate/VastuScoreCalculate'
-
-const chunk = (Listarr1, chunkSize = 1, cache = []) => {
-  const tmp = [...Listarr1]
-  if (chunkSize <= 0) return cache
-  while (tmp.length) cache.push(tmp.splice(0, chunkSize))
-  return cache
-}
-
-let val = chunk([], 3)
+import { Link } from 'react-router-dom'
 
 let SelectedListValues = [
   {
@@ -58,7 +52,46 @@ let SelectedListValues = [
 ]
 
 const VastuscoreCheck = (props) => {
-  const [cardData, setCardData] = useState({})
+  const [cardData, setCardData] = useState({ Direction: '', listData: [] })
+
+  const [listData, setListData] = useState([
+    {
+      Direction: 'North West',
+      RoomList: [],
+    },
+    {
+      Direction: 'North',
+      RoomList: [],
+    },
+    {
+      Direction: 'North East',
+      RoomList: [],
+    },
+    {
+      Direction: 'West',
+      RoomList: [],
+    },
+    {
+      Direction: 'Centre',
+      RoomList: [],
+    },
+    {
+      Direction: 'East',
+      RoomList: [],
+    },
+    {
+      Direction: 'South West',
+      RoomList: [],
+    },
+    {
+      Direction: 'South',
+      RoomList: [],
+    },
+    {
+      Direction: 'South East',
+      RoomList: [],
+    },
+  ])
   const [isCardClicked, setCardClicked] = useState(false)
   const [selectedData, setSelectedData] = useState([{}])
   const [VastuScoreChecked, setVastuScoreChecked] = useState(false)
@@ -67,7 +100,9 @@ const VastuscoreCheck = (props) => {
     roomWiseVastuScore: [{}],
     vastuScoreStatus: '',
   })
- 
+  const [listVal, setList] = useState([])
+
+  const [modalShow, setModalShow] = useState(false)
 
   const DirectionArray = [
     'North West',
@@ -81,30 +116,31 @@ const VastuscoreCheck = (props) => {
     'South East',
   ]
 
-  // const fetchListData = async (cardTitle) => {
-  //   // console.log(cardTitle)
-  //   axios
-  //     .get(
-  //       'https://luayn58dm9.execute-api.ap-south-1.amazonaws.com/stage/vastu/getRoomList',
-  //     )
-  //     .then((Responsedata) => {
-  //       let roomListData = {
-  //         Direction: cardTitle,
-  //         listData: Responsedata.data.payload.data.roomList,
-  //       }
-
-  //       if (roomListData.listData) {
-  //         setCardData(roomListData)
-  //         setCardClicked(true)
-  //       }
-  //     })
-  // }
-
   const onCardClickHandler = (item) => {
-    if(item==''){
-      return
-    }else{
-    //  fetchListData(item)
+    var inputs = document.getElementsByClassName('checkBox')
+    //console.log(inputs[0].value)
+    // for (let i = 0; i < listData.length; i++) {
+    //   if (listData[i].Direction == item && listData[i].RoomList.length !== 0) {
+    //     for (var j = 0; j < inputs.length; j++) {
+    //       listData[i].RoomList.map((key) => {
+    //         if (key == inputs[j].value) {
+    //           // var inputVal=inputs[j].value;
+    //           document.querySelector("[value = key]").checked= true
+    //           // checked.checked = true
+    //            console.log(inputs[j].value)
+    //           //console.log(this)
+    //         }
+    //       })
+    //     }
+    //   }else{
+    //   // for (var k = 0; k < inputs.length; k++) {
+    //   //   inputs[k].checked = false
+    //   }
+    // }
+    // }
+    for (var k = 0; k < inputs.length; k++) {
+      inputs[k].checked = false
+    }
 
     axios
       .get(
@@ -119,81 +155,83 @@ const VastuscoreCheck = (props) => {
         setCardClicked(true)
       })
 
-    console.log(selectedData)
-   } }
+    //console.log(selectedData)
+  }
 
-  const showSelectedItem = (item) => {
-    
-   // console.log(item.reload);
-  //  reload.push(item.reload);
-    
-    for (let key in SelectedListValues) {
-      if (SelectedListValues[key].Direction == item.direction) {
-        if (item.checked) {
-          SelectedListValues[key].RoomList.push(item.value)
-          setSelectedData((prevState) => {
-            return [...prevState], SelectedListValues
-          })
-          console.log(SelectedListValues)
-        } else {
-          for (let i = 0; i <= SelectedListValues[key].RoomList.length; i++) {
-            if (SelectedListValues[key].RoomList[i] === item.value) {
-              console.log(item.value)
-              SelectedListValues[key].RoomList.splice(i, 1)
-              setSelectedData((prevState) => {
-                return [...prevState], SelectedListValues
-              })
-              console.log(SelectedListValues)
-            }
-          }
+  const isClickedModal = () => {
+    setModalShow(true)
+  }
+
+  const showSelectedItem = (Direction, e) => {
+   
+    let listArray = [...listData]
+    console.log(listArray)
+
+    for (let i = 0; i < listArray.length; i++) {
+      if (e.target.checked) {
+        if (listArray[i].Direction == Direction.Direction &&  !listArray[i].RoomList.includes(e.target.value)) {
+          listArray[i].RoomList.push(e.target.value)
         }
-        //   console.log(selectedData)
+      } else {
+        if (listArray[i].Direction == Direction.Direction) {
+          listArray[i].RoomList.splice(
+            listArray[i].RoomList.indexOf(e.target.value),
+            1,
+          )
+        }
       }
+
+      console.log(listArray)
+      setListData(listArray)
     }
   }
-  const goBack=(value)=>{
-    setVastuScoreChecked(value.value)
 
+  const goBack = (value) => {
+    setVastuScoreChecked(value.value)
   }
-//  console.log(reload)
+  //  console.log(reload)
 
   const CalculateVastuScore = (DataToalculate) => {
     console.log(DataToalculate[0])
-    if(Object.keys(DataToalculate[0]).length === 0){
-      console.log("please fill somthing");
-    }else{
+    if (Object.keys(DataToalculate[0]).length === 0) {
+      console.log('please fill something')
+    } else {
       let obj = {}
 
-    console.log(DataToalculate)
-    for (let i in DataToalculate) {
-      obj[DataToalculate[i].Direction] = DataToalculate[i].RoomList
+      console.log(DataToalculate)
+      for (let i in DataToalculate) {
+        obj[DataToalculate[i].Direction] = DataToalculate[i].RoomList
 
-      // console.log(DataToalculate[i].Direction)
-    }
+        // console.log(DataToalculate[i].Direction)
+      }
 
-    const fetchScore = {
-      "selectedRoomsAndDirection": obj,
-    }
-    // console.log(fetchScore)
-   
+      const fetchScore = {
+        selectedRoomsAndDirection: obj,
+      }
+      // console.log(fetchScore)
 
-    axios
-      .post(
-        'https://luayn58dm9.execute-api.ap-south-1.amazonaws.com/stage/vastu/getVastuScore',
-        fetchScore
-      )
-      .then((Response) => {
-       // console.log(Response.data.payload.data)
-        setScoreData(Response.data.payload.data)
-        setVastuScoreChecked(true)
-      })
+      axios
+        .post(
+          'https://luayn58dm9.execute-api.ap-south-1.amazonaws.com/stage/vastu/getVastuScore',
+          fetchScore,
+        )
+        .then((Response) => {
+          // console.log(Response.data.payload.data)
+          setScoreData(Response.data.payload.data)
+          setVastuScoreChecked(true)
+        })
     }
-    
   }
 
-  const resetValue=()=>{
-    setSelectedData([{...SelectedListValues}])
-
+  const resetValue = () => {
+    let resetValues = [...listData]
+    console.log(resetValues)
+    for (let i = 0; i < resetValues.length; i++) {
+      resetValues[i].RoomList = []
+    }
+    console.log(resetValues)
+    setListData(resetValues)
+    setCardClicked(false)
   }
 
   return (
@@ -210,9 +248,61 @@ const VastuscoreCheck = (props) => {
             )}
             <div className="ListCard">
               {isCardClicked && (
-                <Listitems data={cardData} selectedItem={showSelectedItem}>
-                  {props.children}
-                </Listitems>
+                <div>
+                  <Card className="listCard">
+                    <div>
+                      {' '}
+                      <h2>{cardData.Direction}</h2>
+                    </div>
+                    <div className="linkClass">
+                      <p>Want to know more about North-West?</p>
+                      <Link to="" onClick={isClickedModal}>
+                        {' '}
+                        Read Now ?
+                      </Link>
+                    </div>
+                    <p>
+                      Select the rooms that are present in North West direction
+                      of your home by tapping on the boxes below:
+                    </p>
+                    <Row>
+                      {cardData.listData.map((item, index) => {
+                        return (
+                          <Col
+                            key={index}
+                            sm={6}
+                            style={{
+                              borderBottom: '1px Solid #dee2e6',
+                              borderRight: '1px Solid #dee2e6',
+                              padding: '20px 20px',
+                            }}
+                          >
+                            {' '}
+                            <input
+                              className="checkBox"
+                              type="checkbox"
+                              value={item}
+                              onClick={(e) =>
+                                showSelectedItem(
+                                  { Direction: cardData.Direction },
+                                  e,
+                                )
+                              }
+                            />
+                            {item}
+                          </Col>
+                        )
+                      })}
+                    </Row>
+
+                    <MyModal
+                    modalData={cardData.Direction}
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                  />
+                  </Card>
+                </div>
+               
               )}
             </div>
           </div>
@@ -222,66 +312,186 @@ const VastuscoreCheck = (props) => {
       {!VastuScoreChecked && (
         <MainContent>
           <Container>
-            <Row key={Math.random()}>
-              {DirectionArray.map((item) => {
-                return (
-                  <Col sm={4} md={4} lg={4} key={Math.random()}>
-                    <Cards
-                    // reload ={reload}
-                      selectedData={selectedData}
-                      item={item}
-                      onCardClickHandler={onCardClickHandler}
-                    ><ul> {props.children}</ul>
-                     
-                    </Cards>
-                  </Col>
-                )
-              })}
+            <Row>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="North West"
+                  onClick={(e) => onCardClickHandler('North West', e)}
+                >
+                  <h5>NORTH WEST</h5>
+                  <hr />
+                  <ul>
+                    {listData[0].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="North"
+                  onClick={() => onCardClickHandler('North')}
+                >
+                  <h5>NORTH</h5>
+                  <hr />
+                  <ul>
+                    {listData[1].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="North East"
+                  onClick={() => onCardClickHandler('North East')}
+                >
+                  <h5>NORTH EAST</h5>
+                  <hr />
+                  <ul>
+                    {listData[2].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="West"
+                  onClick={() => onCardClickHandler('West')}
+                >
+                  <h5>WEST</h5>
+                  <hr />
+                  <ul>
+                    {listData[3].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="Centre"
+                  onClick={() => onCardClickHandler('Centre')}
+                >
+                  <h5>CENTER OF THE HOME</h5>
+                  <hr />
+                  <ul>
+                    {listData[4].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="East"
+                  onClick={() => onCardClickHandler('East')}
+                >
+                  <h5>EAST</h5>
+                  <hr />
+                  <ul>
+                    {listData[5].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="South West"
+                  onClick={() => onCardClickHandler('South West')}
+                >
+                  <h5>SOUTH WEST</h5>
+                  <hr />
+                  <ul>
+                    {listData[6].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="South"
+                  onClick={() => onCardClickHandler('South')}
+                >
+                  <h5>SOUTH</h5>
+                  <hr />
+                  <ul>
+                    {listData[7].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
+              <Col sm={4} md={4} lg={4} key={Math.random()}>
+                <Card
+                  className="MyCard"
+                  item="South East"
+                  onClick={() => onCardClickHandler('South East')}
+                >
+                  <h5>SOUTH EAST</h5>
+                  <hr />
+                  <ul>
+                    {listData[8].RoomList.map((item) => {
+                      return <li>{[item]}</li>
+                    })}
+                  </ul>
+                </Card>
+              </Col>
             </Row>
-<div style={{display:"flex", }}>
-<Button
-            style={{
-              // width: '200px',
-              // height: '40px',
-              display:"inline-block",
-              marginRight:"150px",
-              
-              flex:"1",
-              
-              background: '#FF7021',
-              borderRadius: '4px',
-              color: 'white',
-            }}
-              onClick={() => {
-                resetValue()
-              }}
-            >
-              RESET
-            </Button>
-            <Button
-            style={{
-              // width: '200px',
-              // height: '40px',
-              flex:"1",
-              display:"inline-block",
-              marginRight:"150px",
-              background: '#FF7021',
-              borderRadius: '4px',
-              color: 'white',
-            }}
-              onClick={() => {
-                CalculateVastuScore(selectedData)
-              }}
-            >
-              CALCULATE
-            </Button>
-</div>
-           
+
+            <div style={{ display: 'flex' ,marginTop:'10 rem'}}>
+              <Button
+                style={{
+                  display: 'inline-block',
+                  marginRight: '150px',
+
+                  flex: '1',
+
+                  background: '#FF7021',
+                  borderRadius: '4px',
+                  color: 'white',
+                }}
+                onClick={() => {
+                  resetValue()
+                }}
+              >
+                RESET
+              </Button>
+              <Button
+                style={{
+                  display: 'inline-block',
+                 flex:'1',
+                  background: '#FF7021',
+                  borderRadius: '4px',
+                  color: 'white',
+                }}
+                onClick={() => {
+                  CalculateVastuScore(listData)
+                }}
+              >
+                CALCULATE
+              </Button>
+            </div>
           </Container>
         </MainContent>
       )}{' '}
       {VastuScoreChecked && (
-        <VastuScoreCalculate ScoreData={ScoreData} goBack={goBack} resetValue={resetValue}>
+        <VastuScoreCalculate
+          ScoreData={ScoreData}
+          goBack={goBack}
+          resetValue={resetValue}
+        >
           {props.children}
         </VastuScoreCalculate>
       )}
