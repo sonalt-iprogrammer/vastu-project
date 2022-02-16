@@ -1,4 +1,22 @@
 .card.scoreCard{
     display: none;
     margin: 5rem !important;
+   
 }
+input[value="Neutral"] {
+    color: #FFCD02;
+    background-color:  #FFFAE6;
+   
+  }
+  input[value*="Avoidable"] {
+    color: #D11E4C
+    ;
+    background-color:  #FAE8ED;
+  }
+  input[value*="Favorable"] {
+    color: #15B525;
+    background-color: #F1FBF2;
+    
+    
+
+  }

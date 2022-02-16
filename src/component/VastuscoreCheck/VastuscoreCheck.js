@@ -321,11 +321,12 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>NORTH WEST</h5>
                   <hr />
-                  <ul>
+                  {listData[0].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[0].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
+                  
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -336,11 +337,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>NORTH</h5>
                   <hr />
-                  <ul>
+                  {listData[1].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[1].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -351,11 +352,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>NORTH EAST</h5>
                   <hr />
-                  <ul>
+                  {listData[2].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[2].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -366,11 +367,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>WEST</h5>
                   <hr />
-                  <ul>
+                  {listData[3].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[3].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -381,11 +382,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>CENTER OF THE HOME</h5>
                   <hr />
-                  <ul>
+                  {listData[4].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[4].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -396,11 +397,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>EAST</h5>
                   <hr />
-                  <ul>
+                  {listData[5].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[5].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -411,11 +412,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>SOUTH WEST</h5>
                   <hr />
-                  <ul>
+                  {listData[6].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[6].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -426,11 +427,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>SOUTH</h5>
                   <hr />
-                  <ul>
+                  {listData[7].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[7].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
               <Col sm={4} md={4} lg={4} key={Math.random()}>
@@ -441,11 +442,11 @@ const VastuscoreCheck = (props) => {
                 >
                   <h5>SOUTH EAST</h5>
                   <hr />
-                  <ul>
+                  {listData[8].RoomList.length==0?<p>No Rooms Selected</p>:<ul>
                     {listData[8].RoomList.map((item) => {
                       return <li>{[item]}</li>
                     })}
-                  </ul>
+                  </ul>}
                 </Card>
               </Col>
             </Row>
@@ -461,6 +462,11 @@ const VastuscoreCheck = (props) => {
                   background: '#FF7021',
                   borderRadius: '4px',
                   color: 'white',
+                  border:"none",
+                  height: '50px',
+
+                  
+
                 }}
                 onClick={() => {
                   resetValue()
@@ -475,6 +481,8 @@ const VastuscoreCheck = (props) => {
                   background: '#FF7021',
                   borderRadius: '4px',
                   color: 'white',
+                  border:"none",
+                  height: '50px',
                 }}
                 onClick={() => {
                   CalculateVastuScore(listData)

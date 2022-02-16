@@ -22,6 +22,9 @@ const VastuScoreCalculate = (props) => {
   const favourableDirections = []
   const nuetralDirections = []
   const unfavourableDirections = []
+  let favourable = false
+   let nuetral= false
+   let avoidable = false
 
 
   const onGoBackClick =()=>{
@@ -30,13 +33,11 @@ const VastuScoreCalculate = (props) => {
     });
   }
   const resetting=()=>{
-    setRoomModalData({
-      room: '',
-      favourableDirections: [],
-      nuetralDirections: [],
-      unfavourableDirections: [],
-    });
+    
     props.resetValue();
+    props.goBack({
+      "value":false
+    });
 
 
   }
@@ -62,7 +63,7 @@ const VastuScoreCalculate = (props) => {
             for (let i = 0; i < MyData[key].length; i++) {
               unfavourableDirections.push(MyData[key][i])
             }
-          } else if (key == 'nuetralDirections') {
+          } else if (key == 'neutralDirections') {
             for (let i = 0; i < MyData[key].length; i++) {
               nuetralDirections.push(MyData[key][i])
             }
@@ -78,6 +79,8 @@ const VastuScoreCalculate = (props) => {
       })
   }
   console.log(favourableDirections)
+
+ 
 
   return (
     <div>
@@ -103,7 +106,7 @@ const VastuScoreCalculate = (props) => {
           <h1 style={{ color: ' #D11E4C' }}>
             {props.ScoreData.overallVastuScore}
           </h1>
-          <h3>{props.ScoreData.vastuScoreStatus}</h3>
+          <h5 style={{color:"#503796"}}>{props.ScoreData.vastuScoreStatus}</h5>
         </div>
         <hr />
         <p
@@ -123,6 +126,7 @@ const VastuScoreCalculate = (props) => {
         <hr />
         <Row>
           {roomWiseVastuScore.map((item) => {
+            
             return (
               <Col
                 key={Math.random()}
@@ -138,13 +142,19 @@ const VastuScoreCalculate = (props) => {
                 {' '}
                 <div>{item.room}</div>
                 <div>
-                  <button
+                  <input
+                  type="button"
+                  style={{width:" 120px",
+                    height:" 28px",
+                    borderRadius: "8px",textTransform:" uppercase",border:"none", fontWeight:"600px"}}
                     onClick={() => {
                       onLegendClick(item.room)
                     }}
-                  >
-                    {item.legend}
-                  </button>
+                  
+                  value={item.legend}/>
+                   
+                  
+                 
                 </div>
               </Col>
             )
@@ -159,6 +169,7 @@ const VastuScoreCalculate = (props) => {
           background: '#FF7021',
           borderRadius: '4px',
           color: 'white',
+          border:"none"
         }}
       >
         RESET VASTU SCORE
@@ -169,6 +180,7 @@ const VastuScoreCalculate = (props) => {
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.029693)',
           borderRadius: '10px',
           margin: '1rem 20rem 2rem 20rem',
+          border:"none"
         }}
       >
         <div style={{ padding: '3rem' }}>
@@ -234,6 +246,7 @@ const VastuScoreCalculate = (props) => {
                     height: '3rem',
                     fontWeight: '600',
                     fontSize: '20px',
+                    border:"none"
                   }}
                 >
                   {item}
@@ -254,6 +267,7 @@ const VastuScoreCalculate = (props) => {
                     height: '3rem',
                     fontWeight: '600',
                     fontSize: '20px',
+                    border:"none"
                   }}
                 >
                   {item}

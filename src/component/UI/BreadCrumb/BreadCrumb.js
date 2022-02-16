@@ -2,7 +2,7 @@
 
 const BreadCrumb=()=>{
     return(
-        <div>hello/breadcrumb/vastu</div>
+        <div>Home/Solutions/<strong>VastuCheck</strong></div>
     )
 
 }
