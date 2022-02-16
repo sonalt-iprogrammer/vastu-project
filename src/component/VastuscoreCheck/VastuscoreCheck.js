@@ -181,7 +181,7 @@ const VastuscoreCheck = (props) => {
         }
       }
 
-      console.log(listArray)
+      //console.log(listArray)
       setListData(listArray)
     }
   }
@@ -195,7 +195,7 @@ const VastuscoreCheck = (props) => {
    
       let obj = {}
 
-      console.log(DataToalculate)
+     // console.log(DataToalculate)
       for (let i in DataToalculate) {
         obj[DataToalculate[i].Direction] = DataToalculate[i].RoomList
 
@@ -222,7 +222,7 @@ const VastuscoreCheck = (props) => {
 
   const resetValue = () => {
     let resetValues = [...listData]
-    console.log(resetValues)
+   // console.log(resetValues)
     for (let i = 0; i < resetValues.length; i++) {
       resetValues[i].RoomList = []
     }
@@ -252,7 +252,7 @@ const VastuscoreCheck = (props) => {
                       <h2>{cardData.Direction}</h2>
                     </div>
                     <div className="linkClass">
-                      <p>Want to know more about North-West?</p>
+                      <p>Want to know more about {cardData.Direction}?</p>
                       <Link to="" onClick={isClickedModal}>
                         {' '}
                         Read Now ?
@@ -302,7 +302,7 @@ const VastuscoreCheck = (props) => {
               )}
             </div>
           </div>
-          {/* <p>{cardData}</p> */}
+         
         </Sidebar>
       )}
       {!VastuScoreChecked && (
@@ -484,34 +484,37 @@ const VastuscoreCheck = (props) => {
 
             <div style={{ display: 'flex', marginTop: '10 rem' }}>
               <Button
-                style={{
-                  display: 'inline-block',
-                  marginRight: '150px',
-
-                  flex: '1',
-
-                  background: '#FF7021',
-                  borderRadius: '4px',
-                  color: 'white',
-                  border: 'none',
-                  height: '50px',
-                }}
+               style={{
+                marginRight: '150px',
+                display: 'inline-block',
+                flex: '1',
+                background: '#E5E5E5',
+                borderRadius: '8px',
+                border: "1px solid #FF7000",
+                color: '#FF7021',
+               
+                height: '50px',
+              }}
+                
                 onClick={() => {
                   resetValue()
                 }}
               >
-                RESET
+                RESET ROOMS
               </Button>
               <Button
-                style={{
-                  display: 'inline-block',
-                  flex: '1',
-                  background: '#FF7021',
-                  borderRadius: '4px',
-                  color: 'white',
-                  border: 'none',
-                  height: '50px',
-                }}
+               style={{
+                display: 'inline-block',
+               
+
+                flex: '1',
+
+                background: '#FF7021',
+                borderRadius: '8px',
+                color: 'white',
+                border: 'none',
+                height: '50px',
+              }}
                 onClick={() => {
                   CalculateVastuScore(listData)
                 }}

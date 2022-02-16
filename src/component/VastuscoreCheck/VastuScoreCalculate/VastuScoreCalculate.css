@@ -20,3 +20,17 @@ input[value="Neutral"] {
     
 
   }
+  
+  .compliantScore h5{
+   
+    color: 
+    #503796;
+
+  }
+  .compliantScore{
+      margin: 25px 20px;
+  }
+  .compliantScore p{
+      margin: 0 !important;
+  }
+  

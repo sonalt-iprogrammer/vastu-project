@@ -4,8 +4,6 @@ import { Card, Row, Table, Col, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import './VastuScoreCalculate.css'
 
-
-
 const VastuScoreCalculate = (props) => {
   const [roomModalData, setRoomModalData] = useState({
     room: '',
@@ -14,36 +12,32 @@ const VastuScoreCalculate = (props) => {
     unfavourableDirections: [],
   })
   const [ModalShow, setModalShow] = useState(false)
+  const [LegendModal, setLegendModal] = useState(false)
   const navigate = useNavigate()
   const roomWiseVastuScore = props.ScoreData.roomWiseVastuScore
   //let Res = data.listData
-  
+
   // console.log(roomWiseVastuScore)
   const favourableDirections = []
   const nuetralDirections = []
   const unfavourableDirections = []
   let favourable = false
-   let nuetral= false
-   let avoidable = false
+  let nuetral = false
+  let avoidable = false
 
-
-  const onGoBackClick =()=>{
+  const onGoBackClick = () => {
     props.goBack({
-      "value":false
-    });
+      value: false,
+    })
   }
-  const resetting=()=>{
-    
-    props.resetValue();
+  const resetting = () => {
+    props.resetValue()
     props.goBack({
-      "value":false
-    });
-
-
+      value: false,
+    })
   }
-  
 
-  const onLegendClick = (room) => {
+  const onRoomClick = (room) => {
     setModalShow(true)
     axios
       .post(
@@ -79,8 +73,9 @@ const VastuScoreCalculate = (props) => {
       })
   }
   console.log(favourableDirections)
-
- 
+  const onLegendClick=()=>{
+    setLegendModal(true)
+  }
 
   return (
     <div>
@@ -106,7 +101,9 @@ const VastuScoreCalculate = (props) => {
           <h1 style={{ color: ' #D11E4C' }}>
             {props.ScoreData.overallVastuScore}
           </h1>
-          <h5 style={{color:"#503796"}}>{props.ScoreData.vastuScoreStatus}</h5>
+          <h5 style={{ color: '#503796' }}>
+            {props.ScoreData.vastuScoreStatus}
+          </h5>
         </div>
         <hr />
         <p
@@ -126,7 +123,6 @@ const VastuScoreCalculate = (props) => {
         <hr />
         <Row>
           {roomWiseVastuScore.map((item) => {
-            
             return (
               <Col
                 key={Math.random()}
@@ -140,28 +136,34 @@ const VastuScoreCalculate = (props) => {
                 }}
               >
                 {' '}
-                <div>{item.room}</div>
+                <div onClick={() => {
+                      onRoomClick(item.room)
+                    }}>{item.room}</div>
                 <div>
                   <input
-                  type="button"
-                  style={{width:" 120px",
-                    height:" 28px",
-                    borderRadius: "8px",textTransform:" uppercase",border:"none", fontWeight:"600px"}}
-                    onClick={() => {
-                      onLegendClick(item.room)
+                    type="button"
+                    style={{
+                      width: ' 120px',
+                      height: ' 28px',
+                      borderRadius: '8px',
+                      textTransform: ' uppercase',
+                      border: 'none',
+                      fontWeight: '600px',
                     }}
-                  
-                  value={item.legend}/>
-                   
-                  
-                 
+                    onClick={()=>{onLegendClick()
+
+                    }}
+                    
+                    value={item.legend}
+                  />
                 </div>
               </Col>
             )
           })}
         </Row>
       </Card>
-      <button onClick={()=>resetting()}
+      <button
+        onClick={() => resetting()}
         style={{
           width: '380px',
           height: '50px',
@@ -169,7 +171,7 @@ const VastuScoreCalculate = (props) => {
           background: '#FF7021',
           borderRadius: '4px',
           color: 'white',
-          border:"none"
+          border: 'none',
         }}
       >
         RESET VASTU SCORE
@@ -180,7 +182,7 @@ const VastuScoreCalculate = (props) => {
           boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.029693)',
           borderRadius: '10px',
           margin: '1rem 20rem 2rem 20rem',
-          border:"none"
+          border: 'none',
         }}
       >
         <div style={{ padding: '3rem' }}>
@@ -246,7 +248,7 @@ const VastuScoreCalculate = (props) => {
                     height: '3rem',
                     fontWeight: '600',
                     fontSize: '20px',
-                    border:"none"
+                    border: 'none',
                   }}
                 >
                   {item}
@@ -267,7 +269,7 @@ const VastuScoreCalculate = (props) => {
                     height: '3rem',
                     fontWeight: '600',
                     fontSize: '20px',
-                    border:"none"
+                    border: 'none',
                   }}
                 >
                   {item}
@@ -327,9 +329,48 @@ const VastuScoreCalculate = (props) => {
 
           <div></div>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer> */}
+       
+      </Modal>
+      <Modal
+      onHide={() => setLegendModal(false)}
+      show={LegendModal}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className="legendModal">
+      <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Legend
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>What is different compliant scores means!</p>
+          <div className='compliantScore'>
+            <h5>EXCELLENT</h5>
+            <p>
+            Your plan is as per the highest standards of Vaastu. Good job!
+            </p>
+          </div>
+          <div className='compliantScore'>
+            <h5>GOOD</h5>
+            <p>
+            Most of the rooms in your layout have proper Vaastu compliance.
+            </p>
+          </div>
+          <div className='compliantScore'>
+            <h5>IMPROVEMENT REQUIRED</h5>
+            <p>
+            If you are in planning stage, try re-positioning some rooms to improve Vaastu compliance.
+            </p>
+          </div>
+          <div className='compliantScore'>
+            <h5>NON-VAASTU COMPLIANT</h5>
+            <p>
+            Please consult a Vaastu expert to help design the layout according to Vaastu.
+            </p>
+          </div>
+        </Modal.Body>
+
       </Modal>
     </div>
   )
